@@ -40,5 +40,5 @@ def lambda_handler(event, context):
     x["HeartRateVariabilitySDNN"] = [hrv]
     prediction = model.predict(x)
     prediction = prediction.tolist()
-    print(prediction, x)
+    print("Prediction: ",prediction, x)
     return {'prediction': str([prediction[0], x]), 'statusCode': 200}
