@@ -22,6 +22,7 @@ except Exception as exception:
 def lambda_handler(event, context):
     data = deepcopy(event)
     model = joblib.load("best_estimator_model_0.6318845577211395_sgc.pkl")
+    print("data: ", data)
     try:
         hrv = int(data["hrv"])
     except KeyError:
