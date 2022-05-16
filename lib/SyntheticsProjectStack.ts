@@ -15,7 +15,6 @@ export class SyntheticsProjectStack extends Stack {
     const url = commonProps.setLambdaUrl(lambda_function);
     new CfnOutput(this, "LambdaURL", {
       value: url.url,
-      exportName: "LambdaURL",
     });
   }
 }

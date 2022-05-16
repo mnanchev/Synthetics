@@ -30,7 +30,5 @@ export class SyntheticsProjectPipeline extends Stack {
     pipeline.addStage(deploy, {
       pre: [new ManualApprovalStep("Approval Step")],
     });
-
-    // const deployStage = pipeline.addStage(deploy);
   }
 }
