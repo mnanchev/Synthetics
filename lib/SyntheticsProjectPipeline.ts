@@ -27,8 +27,6 @@ export class SyntheticsProjectPipeline extends Stack {
       }),
     });
     const deploy = new SyntheticsProjectStage(this, "Deploy");
-    pipeline.addStage(deploy, {
-      pre: [new ManualApprovalStep("Approval Step")],
-    });
+    pipeline.addStage(deploy);
   }
 }
