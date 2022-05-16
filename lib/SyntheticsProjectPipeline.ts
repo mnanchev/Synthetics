@@ -1,7 +1,5 @@
 import { SyntheticsProjectStage } from "./SyntheticsProjectStage";
 import { Stack, StackProps } from "aws-cdk-lib";
-import * as pipelines from "aws-cdk-lib/pipelines";
-import { CodeCommitSourceAction } from "aws-cdk-lib/aws-codepipeline-actions";
 
 import { Construct } from "constructs";
 import { Repository } from "aws-cdk-lib/aws-codecommit";
