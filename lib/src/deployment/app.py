@@ -1,5 +1,4 @@
 from copy import deepcopy
-import json
 import logging
 import sys
 
@@ -22,16 +21,14 @@ except Exception as exception:
 
 def lambda_handler(event, context):
     data = deepcopy(event)
-    body = json.loads(data['body'])
-    print(body)
     model = joblib.load("best_estimator_model_0.6318845577211395_sgc.pkl")
     try:
-        hrv = int(body["hrv"])
+        hrv = int(data["hrv"])
     except KeyError:
         logging.error("No hrv value provided.")
         sys.exit(1)
     try:
-        heart_rate = int(body["heart_rate"])
+        heart_rate = int(data["heart_rate"])
     except KeyError:
         logging.error("No heart rate found")
         sys.exit(1)
@@ -40,5 +37,4 @@ def lambda_handler(event, context):
     x["HeartRateVariabilitySDNN"] = [hrv]
     prediction = model.predict(x)
     prediction = prediction.tolist()
-    print("Prediction: ",prediction, x)
     return {'prediction': str([prediction[0], x]), 'statusCode': 200}
