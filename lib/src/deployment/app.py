@@ -35,6 +35,7 @@ def lambda_handler(event, context):
     except KeyError:
         logging.error("No heart rate found")
         sys.exit(1)
+    x = pd.DataFrame()
     x["HeartRate"] = [heart_rate]
     x["HeartRateVariabilitySDNN"] = [hrv]
     prediction = model.predict(x)
