@@ -23,7 +23,7 @@ export class SyntheticsProjectPipeline extends Stack {
       synth: new CodeBuildStep("SynthStep", {
         input: CodePipelineSource.codeCommit(ml_repo, "master"),
         installCommands: ["npm install -g aws-cdk"],
-        commands: ["npm ci", "npm run build", "npx cdk synth"],
+        commands: ["npm ci", "npm run build", "npx cdk synth", "npx cdk diff"],
       }),
     });
     const deploy = new SyntheticsProjectStage(this, "Deploy");
