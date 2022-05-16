@@ -7,6 +7,7 @@ import {
   CodeBuildStep,
   CodePipeline,
   CodePipelineSource,
+  ManualApprovalStep,
 } from "aws-cdk-lib/pipelines";
 
 export class SyntheticsProjectPipeline extends Stack {
@@ -26,6 +27,10 @@ export class SyntheticsProjectPipeline extends Stack {
       }),
     });
     const deploy = new SyntheticsProjectStage(this, "Deploy");
-    const deployStage = pipeline.addStage(deploy);
+    pipeline.addStage(deploy, {
+      pre: [new ManualApprovalStep("Approval Step")],
+    });
+
+    // const deployStage = pipeline.addStage(deploy);
   }
 }
