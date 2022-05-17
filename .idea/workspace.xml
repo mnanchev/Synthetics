@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3738655b-59d3-42bb-8874-f5591ef7358d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/Properties.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Properties.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/SyntheticsProjectPipeline.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/SyntheticsProjectPipeline.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/SyntheticsProjectStack.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/SyntheticsProjectStack.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/deployment/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/deployment/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/canary/nodejs/node_modules/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
