@@ -15,10 +15,11 @@ export class SyntheticsProjectStack extends Stack {
       commonProps.getDockerLambdaProperties()
     );
     const url = commonProps.setLambdaUrl(lambda_function);
+    const urlEncoded = url.url.replace("https://", "").replace("/", "");
     new StringParameter(this, "predictingLambdaUrl", {
       description: "The url for predicting lambda",
       parameterName: predictingLambdaUrlParameter,
-      stringValue: url.url.replace("https://", "").replace("/", ""),
+      stringValue: urlEncoded,
     });
   }
 }
