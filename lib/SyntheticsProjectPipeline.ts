@@ -109,7 +109,7 @@ export class SyntheticsProjectPipeline extends Stack {
     });
 
     const cloudWatchDashboard = new CfnDashboard(this, "CloudWatchDashboard", {
-      dashboardName: "Predicting Lambda Dashboard",
+      dashboardName: "Predicting-Lambda-Dashboard",
       dashboardBody: props?.dashboard!,
     });
   }
