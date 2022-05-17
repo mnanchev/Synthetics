@@ -16,6 +16,17 @@ enum PredictingLambdaProperties {
   timeout = 15,
 }
 
+export enum CanaryProperties {
+  evaluationPeriods = 2,
+  threshold = 90,
+}
+
+export enum Emails {
+  email = "martinn@helecloud.com",
+}
+
+export const predictingLambdaUrlParameter = "/predicting/lambda/url";
+
 export class CommonProps {
   setLambdaUrl(lambda_function: DockerImageFunction): FunctionUrl {
     return lambda_function.addFunctionUrl({
