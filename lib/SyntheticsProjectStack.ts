@@ -22,5 +22,10 @@ export class SyntheticsProjectStack extends Stack {
       parameterName: predictingLambdaUrlParameter,
       stringValue: urlEncoded,
     });
+    new StringParameter(this, "predictingLambdaUrlEncoded", {
+      description: "The url for predicting lambda",
+      parameterName: `${predictingLambdaUrlParameter}/encoded`,
+      stringValue: urlEncoded,
+    });
   }
 }
