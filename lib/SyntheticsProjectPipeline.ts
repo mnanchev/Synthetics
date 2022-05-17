@@ -138,5 +138,15 @@ export class SyntheticsProjectPipeline extends Stack {
     new CompositeAlarm(this, "SuccessRateDurationSLO", {
       alarmRule,
     });
+
+    const dominosCanary = new Canary(this, "dominosCanary", {
+      canaryName: canaryName,
+      schedule: Schedule.once(),
+      test: Test.custom({
+        code: CanaryCode.fromAsset(join(__dirname, "dominos")),
+        handler: "index.handler",
+      }),
+      runtime: CanaryRuntime.SYNTHETICS_NODEJS_PUPPETEER_3_5,
+    });
   }
 }
