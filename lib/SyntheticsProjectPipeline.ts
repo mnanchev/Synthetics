@@ -19,8 +19,11 @@ import { join } from "path";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import {
   Alarm,
+  AlarmRule,
+  AlarmState,
   CfnDashboard,
   ComparisonOperator,
+  CompositeAlarm,
   TreatMissingData,
 } from "aws-cdk-lib/aws-cloudwatch";
 import {
@@ -111,6 +114,27 @@ export class SyntheticsProjectPipeline extends Stack {
     const cloudWatchDashboard = new CfnDashboard(this, "CloudWatchDashboard", {
       dashboardName: "Predicting-Lambda-Dashboard",
       dashboardBody: props?.dashboard!,
+    });
+
+    const successRateAlarm = new Alarm(this, "SuccessRate", {
+      comparisonOperator: ComparisonOperator.LESS_THAN_THRESHOLD,
+      threshold: 95,
+      evaluationPeriods: 2,
+      metric: canary.metricSuccessPercent(),
+    });
+
+    const durationAlarm = new Alarm(this, "Duration", {
+      comparisonOperator: ComparisonOperator.LESS_THAN_THRESHOLD,
+      threshold: 5,
+      evaluationPeriods: 2,
+      metric: canary.metricDuration(),
+    });
+    const alarmRule = AlarmRule.anyOf(
+      AlarmRule.fromAlarm(successRateAlarm, AlarmState.ALARM),
+      AlarmRule.fromAlarm(durationAlarm, AlarmState.ALARM)
+    );
+    new CompositeAlarm(this, "SuccessRateDurationSLO", {
+      alarmRule,
     });
   }
 }
