@@ -58,7 +58,7 @@ export class SyntheticsProjectPipeline extends Stack {
 
       runtime: CanaryRuntime.SYNTHETICS_NODEJS_PUPPETEER_3_5,
       environmentVariables: {
-        HOSTNAME: latestStringToken,
+        HOSTNAME: latestStringToken.replace("https//", "").replace("/", ""),
       },
     });
     const buildPhase = new CodeBuildStep("SynthStep", {
@@ -76,7 +76,7 @@ export class SyntheticsProjectPipeline extends Stack {
       commands: [`aws synthetics start-canary --name ${canary.canaryName}`],
       rolePolicyStatements: [
         new PolicyStatement({
-          actions: ["*"],
+          actions: ["synthetics:*"],
           resources: ["*"],
         }),
       ],
