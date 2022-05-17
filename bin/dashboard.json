@@ -1,0 +1,159 @@
+{
+  "widgets": [
+    {
+      "type": "serviceLensTracesMap",
+      "x": 0,
+      "y": 0,
+      "width": 15,
+      "height": 10,
+      "properties": {
+        "title": "Service Map",
+        "view": "nodeConnections",
+        "filters": {
+          "node": {
+            "name": "REPLACE_FUNCTION_NAME",
+            "type": "AWS::Lambda::Function"
+          }
+        }
+      }
+    },
+    {
+      "type": "serviceLensTracesTable",
+      "x": 0,
+      "y": 10,
+      "width": 23,
+      "height": 7,
+      "properties": {
+        "title": "Traces",
+        "filters": {
+          "node": {
+            "name": "REPLACE_FUNCTION_NAME",
+            "type": "AWS::Lambda::Function"
+          }
+        }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 19,
+      "y": 0,
+      "width": 4,
+      "height": 5,
+      "properties": {
+        "metrics": [
+          [
+            {
+              "expression": "IF(MINUTE(m1) > 30, m1)",
+              "label": "Expression1",
+              "id": "e1",
+              "visible": false,
+              "region": "REPLACE_REGION"
+            }
+          ],
+          [
+            "AWS/Lambda",
+            "Invocations",
+            "FunctionName",
+            "REPLACE_FUNCTION_NAME",
+            { "id": "m1", "period": 60, "visible": false }
+          ],
+          [
+            "CloudWatchSynthetics",
+            "SuccessPercent",
+            "CanaryName",
+            "REPLACE_CANARY_NAME",
+            { "period": 60, "id": "m2" }
+          ]
+        ],
+        "view": "gauge",
+        "region": "REPLACE_REGION",
+        "stat": "Average",
+        "period": 300,
+        "yAxis": {
+          "left": {
+            "min": 0,
+            "max": 100
+          }
+        },
+        "title": "SuccessPercentage"
+      }
+    },
+    {
+      "type": "metric",
+      "x": 15,
+      "y": 0,
+      "width": 4,
+      "height": 5,
+      "properties": {
+        "metrics": [
+          [
+            {
+              "expression": "IF(MINUTE(m1) > 30, m1)",
+              "label": "Expression1",
+              "id": "e1",
+              "visible": false
+            }
+          ],
+          [
+            "AWS/Lambda",
+            "Invocations",
+            "FunctionName",
+            "REPLACE_FUNCTION_NAME",
+            { "id": "m1", "period": 60 }
+          ]
+        ],
+        "view": "gauge",
+        "region": "REPLACE_REGION",
+        "stat": "Average",
+        "period": 300,
+        "yAxis": {
+          "left": {
+            "min": 0,
+            "max": 1000
+          }
+        },
+        "title": "Invocations/minute"
+      }
+    },
+    {
+      "type": "metric",
+      "x": 15,
+      "y": 5,
+      "width": 4,
+      "height": 5,
+      "properties": {
+        "view": "gauge",
+        "metrics": [
+          [
+            "CloudWatchSynthetics",
+            "Duration",
+            "CanaryName",
+            "REPLACE_CANARY_NAME"
+          ]
+        ],
+        "region": "REPLACE_REGION",
+        "yAxis": {
+          "left": {
+            "min": 0,
+            "max": 5000
+          }
+        }
+      }
+    },
+    {
+      "type": "metric",
+      "x": 19,
+      "y": 5,
+      "width": 4,
+      "height": 5,
+      "properties": {
+        "view": "bar",
+        "metrics": [
+          ["AWS/Lambda", "Errors", "FunctionName", "REPLACE_FUNCTION_NAME"],
+          [".", "UrlRequestCount", ".", "."]
+        ],
+        "region": "REPLACE_REGION"
+      }
+    }
+  ]
+}
