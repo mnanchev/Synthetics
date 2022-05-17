@@ -67,12 +67,13 @@ export class SyntheticsProjectPipeline extends Stack {
     const postDeploymentChecks = new CodeBuildStep("postDeploymentChecks", {
       commands: [`aws synthetics start-canary --name ${canary.canaryName}`],
     });
-    pipeline.role?.addToPrincipalPolicy(
+
+    pipeline.synthProject.addToRolePolicy(
       new PolicyStatement({
         resources: ["*"],
         actions: ["synthetics:StartCanary"],
       })
-    )!;
+    );
 
     const topic = new Topic(this, "DeploymentFailedTopic", {
       displayName: "deploymentFailed",
