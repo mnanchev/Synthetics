@@ -140,7 +140,7 @@ export class SyntheticsProjectPipeline extends Stack {
     });
 
     const dominosCanary = new Canary(this, "dominosCanary", {
-      canaryName: canaryName,
+      canaryName: "dominos",
       schedule: Schedule.once(),
       test: Test.custom({
         code: CanaryCode.fromAsset(join(__dirname, "dominos")),
