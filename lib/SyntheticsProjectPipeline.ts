@@ -68,11 +68,8 @@ export class SyntheticsProjectPipeline extends Stack {
       commands: [`aws synthetics start-canary --name ${canary.canaryName}`],
     });
 
-    pipeline.synthProject.addToRolePolicy(
-      new PolicyStatement({
-        resources: ["*"],
-        actions: ["synthetics:StartCanary"],
-      })
+    postDeploymentChecks.role?.addManagedPolicy(
+      ManagedPolicy.fromAwsManagedPolicyName("CloudWatchSyntheticsFullAccess")
     );
 
     const topic = new Topic(this, "DeploymentFailedTopic", {
