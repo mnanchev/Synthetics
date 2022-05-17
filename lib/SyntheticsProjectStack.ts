@@ -18,7 +18,7 @@ export class SyntheticsProjectStack extends Stack {
     new StringParameter(this, "predictingLambdaUrl", {
       description: "The url for predicting lambda",
       parameterName: predictingLambdaUrlParameter,
-      stringValue: url.url,
+      stringValue: url.url.replace("https://", "").replace("/", ""),
     });
   }
 }
