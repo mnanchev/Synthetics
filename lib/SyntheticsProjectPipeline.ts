@@ -17,7 +17,11 @@ import {
   Schedule,
 } from "@aws-cdk/aws-synthetics-alpha";
 import { join } from "path";
-import { ManagedPolicy, PolicyStatement } from "aws-cdk-lib/aws-iam";
+import {
+  AnyPrincipal,
+  ManagedPolicy,
+  PolicyStatement,
+} from "aws-cdk-lib/aws-iam";
 import {
   Alarm,
   ComparisonOperator,
@@ -31,6 +35,7 @@ import {
 import { Topic } from "aws-cdk-lib/aws-sns";
 import { EmailSubscription } from "aws-cdk-lib/aws-sns-subscriptions";
 import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
+import { pipeline } from "stream";
 
 export class SyntheticsProjectPipeline extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -66,11 +71,13 @@ export class SyntheticsProjectPipeline extends Stack {
 
     const postDeploymentChecks = new CodeBuildStep("postDeploymentChecks", {
       commands: [`aws synthetics start-canary --name ${canary.canaryName}`],
+      rolePolicyStatements: [
+        new PolicyStatement({
+          actions: ["*"],
+          resources: ["*"],
+        }),
+      ],
     });
-
-    postDeploymentChecks.role?.addManagedPolicy(
-      ManagedPolicy.fromAwsManagedPolicyName("CloudWatchSyntheticsFullAccess")
-    );
 
     const topic = new Topic(this, "DeploymentFailedTopic", {
       displayName: "deploymentFailed",
