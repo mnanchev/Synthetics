@@ -26,6 +26,8 @@ export enum Emails {
 }
 
 export const predictingLambdaUrlParameter = "/predicting/lambda/url";
+export const canaryName = "end2endtesting";
+export const lambdaFunctionName = "dockerLambdaFunction";
 
 export class CommonProps {
   setLambdaUrl(lambda_function: DockerImageFunction): FunctionUrl {
@@ -36,7 +38,7 @@ export class CommonProps {
 
   getDockerLambdaProperties(
     folder: string = "src",
-    functionName: string = "dockerLambdaFunction"
+    functionName: string = lambdaFunctionName
   ): DockerImageFunctionProps {
     return StrictBuilder<DockerImageFunctionProps>()
       .architecture(Architecture.X86_64)

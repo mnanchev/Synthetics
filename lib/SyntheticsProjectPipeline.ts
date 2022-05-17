@@ -19,10 +19,12 @@ import { join } from "path";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import {
   Alarm,
+  CfnDashboard,
   ComparisonOperator,
   TreatMissingData,
 } from "aws-cdk-lib/aws-cloudwatch";
 import {
+  canaryName,
   CanaryProperties,
   Emails,
   predictingLambdaUrlParameter,
@@ -32,8 +34,16 @@ import { EmailSubscription } from "aws-cdk-lib/aws-sns-subscriptions";
 import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
 import { StringParameter } from "aws-cdk-lib/aws-ssm";
 
+export interface SyntheticsProjectPipelineProps extends StackProps {
+  readonly dashboard: string;
+}
+
 export class SyntheticsProjectPipeline extends Stack {
-  constructor(scope: Construct, id: string, props?: StackProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props?: SyntheticsProjectPipelineProps
+  ) {
     super(scope, id, props);
     const pipelineName = "MlOpsPipeline";
     const ml_repo = new Repository(this, "MlOpsPipelineRepo", {
@@ -45,6 +55,7 @@ export class SyntheticsProjectPipeline extends Stack {
     );
 
     const canary = new Canary(this, "End2EndTesting", {
+      canaryName: canaryName,
       schedule: Schedule.once(),
       test: Test.custom({
         code: CanaryCode.fromAsset(join(__dirname, "canary")),
@@ -95,6 +106,11 @@ export class SyntheticsProjectPipeline extends Stack {
     const deploy = new SyntheticsProjectStage(this, "Deploy");
     pipeline.addStage(deploy, {
       post: [postDeploymentChecks],
+    });
+
+    const cloudWatchDashboard = new CfnDashboard(this, "CloudWatchDashboard", {
+      dashboardName: "Predicting Lambda Dashboard",
+      dashboardBody: props?.dashboard!,
     });
   }
 }
