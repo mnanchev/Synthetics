@@ -53,7 +53,7 @@ export class SyntheticsProjectPipeline extends Stack {
 
       runtime: CanaryRuntime.SYNTHETICS_NODEJS_PUPPETEER_3_5,
       environmentVariables: {
-        HOSTNAME: latestStringToken.replace("https//", "").replace("/", ""),
+        HOSTNAME: latestStringToken,
       },
     });
     const buildPhase = new CodeBuildStep("SynthStep", {

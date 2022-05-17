@@ -1,4 +1,4 @@
-import { CfnOutput, Stack, StackProps } from "aws-cdk-lib";
+import { Fn, Stack, StackProps } from "aws-cdk-lib";
 import { DockerImageFunction } from "aws-cdk-lib/aws-lambda";
 import { StringParameter } from "aws-cdk-lib/aws-ssm";
 import { Construct } from "constructs";
@@ -15,17 +15,14 @@ export class SyntheticsProjectStack extends Stack {
       commonProps.getDockerLambdaProperties()
     );
     const url = commonProps.setLambdaUrl(lambda_function);
-    const urlEncoded = url.url.replace("https://", "").replace("/", "");
-    console.log(urlEncoded);
+    const domain = Fn.select(
+      0,
+      Fn.split("/", Fn.select(1, Fn.split("https://", url.url)))
+    );
     new StringParameter(this, "predictingLambdaUrl", {
       description: "The url for predicting lambda",
       parameterName: predictingLambdaUrlParameter,
-      stringValue: urlEncoded,
-    });
-    new StringParameter(this, "predictingLambdaUrlEncoded", {
-      description: "The url for predicting lambda",
-      parameterName: `${predictingLambdaUrlParameter}/encoded`,
-      stringValue: urlEncoded,
+      stringValue: domain,
     });
   }
 }
