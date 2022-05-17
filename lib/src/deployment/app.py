@@ -42,4 +42,13 @@ def lambda_handler(event, context):
     prediction = model.predict(x)
     prediction = prediction.tolist()
     print("Prediction: ", prediction, x)
-    return {'prediction': str([prediction[0], x]), 'statusCode': 200}
+    response = {
+        "statusCode": 200,
+        "headers": {
+            "Content-Type": "application/json",
+        },
+        "body": json.dumps({
+            "prediction": str([prediction[0], x])
+        })
+    }
+    return response
