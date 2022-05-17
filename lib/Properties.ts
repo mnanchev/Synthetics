@@ -17,7 +17,7 @@ enum PredictingLambdaProperties {
 }
 
 export enum CanaryProperties {
-  evaluationPeriods = 2,
+  evaluationPeriods = 1,
   threshold = 90,
 }
 

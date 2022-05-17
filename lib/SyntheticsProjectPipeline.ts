@@ -36,6 +36,7 @@ import { Topic } from "aws-cdk-lib/aws-sns";
 import { EmailSubscription } from "aws-cdk-lib/aws-sns-subscriptions";
 import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
 import { pipeline } from "stream";
+import { StringParameter } from "aws-cdk-lib/aws-ssm";
 
 export class SyntheticsProjectPipeline extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -44,6 +45,11 @@ export class SyntheticsProjectPipeline extends Stack {
     const ml_repo = new Repository(this, "MlOpsPipelineRepo", {
       repositoryName: `${pipelineName}Repo`,
     });
+    const latestStringToken = StringParameter.valueForStringParameter(
+      this,
+      predictingLambdaUrlParameter
+    );
+
     const canary = new Canary(this, "End2EndTesting", {
       schedule: Schedule.once(),
       test: Test.custom({
@@ -52,7 +58,7 @@ export class SyntheticsProjectPipeline extends Stack {
       }),
       runtime: CanaryRuntime.SYNTHETICS_NODEJS_PUPPETEER_3_5,
       environmentVariables: {
-        HOSTNAME: predictingLambdaUrlParameter,
+        HOSTNAME: latestStringToken,
       },
     });
     const buildPhase = new CodeBuildStep("SynthStep", {
