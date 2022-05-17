@@ -121,6 +121,7 @@ export class SyntheticsProjectPipeline extends Stack {
       threshold: 95,
       evaluationPeriods: 2,
       metric: canary.metricSuccessPercent(),
+      treatMissingData: TreatMissingData.NOT_BREACHING,
     });
 
     const durationAlarm = new Alarm(this, "Duration", {
@@ -128,6 +129,7 @@ export class SyntheticsProjectPipeline extends Stack {
       threshold: 5,
       evaluationPeriods: 2,
       metric: canary.metricDuration(),
+      treatMissingData: TreatMissingData.NOT_BREACHING,
     });
     const alarmRule = AlarmRule.anyOf(
       AlarmRule.fromAlarm(successRateAlarm, AlarmState.ALARM),
